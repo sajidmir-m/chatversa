@@ -1,5 +1,21 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000';
+const trimTrailingSlash = (url: string): string => url.replace(/\/$/, '');
+
+const resolveBaseUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL?.trim();
+  if (envUrl) return trimTrailingSlash(envUrl);
+
+  // Monorepo on Vercel: frontend + backend share one domain via rewrites
+  if (import.meta.env.PROD && typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+
+  return 'http://localhost:3000';
+};
+
+export const API_URL = resolveBaseUrl();
+export const SOCKET_URL = trimTrailingSlash(
+  import.meta.env.VITE_SOCKET_URL?.trim() || resolveBaseUrl()
+);
 
 export const STORAGE_KEYS = {
   USERNAME: '@chat_username',
