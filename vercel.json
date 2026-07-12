@@ -3,7 +3,6 @@
   "fluid": true,
   "installCommand": "npm install --include=dev --prefix frontend && npm install --include=dev --prefix backend",
   "buildCommand": "npm run vercel-build --prefix backend",
-  "outputDirectory": "backend/public",
   "functions": {
     "src/server.ts": {
       "maxDuration": 300
