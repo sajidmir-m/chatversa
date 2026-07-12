@@ -7,7 +7,8 @@ const frontendDist = join(__dirname, '../../frontend/dist');
 const publicDir = join(__dirname, '../public');
 
 if (!existsSync(frontendDist)) {
-  console.error('Frontend build missing. Run: cd frontend && npm run build');
+  console.error('Frontend build missing at:', frontendDist);
+  console.error('Run from repo root: npm run vercel-build --prefix backend');
   process.exit(1);
 }
 
