@@ -1,0 +1,8 @@
+{
+  "fluid": true,
+  "functions": {
+    "src/server.ts": {
+      "maxDuration": 300
+    }
+  }
+}
