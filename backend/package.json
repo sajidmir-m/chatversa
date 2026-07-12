@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
+    "build:frontend": "npm run build --prefix ../frontend",
+    "copy:frontend": "node scripts/copy-frontend.mjs",
+    "vercel-build": "npm run build:frontend && npm run build && npm run copy:frontend",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit"
   },

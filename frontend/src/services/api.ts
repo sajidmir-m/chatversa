@@ -13,9 +13,19 @@ import {
   UserProfile,
 } from '../types';
 
+const getClientBaseUrl = (): string => {
+  // Production: always use same-origin /api routes (works on Vercel single deploy)
+  if (import.meta.env.PROD) {
+    return '';
+  }
+
+  const configured = API_URL.trim();
+  return configured || 'http://localhost:3000';
+};
+
 const createApiClient = (): AxiosInstance => {
   const client = axios.create({
-    baseURL: API_URL,
+    baseURL: getClientBaseUrl(),
     timeout: 15000,
     headers: { 'Content-Type': 'application/json' },
   });

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "fluid": true,
+  "installCommand": "cd ../frontend && npm install && cd ../backend && npm install",
+  "buildCommand": "cd ../frontend && npm run build && cd ../backend && npm run build && node scripts/copy-frontend.mjs",
+  "functions": {
+    "src/server.ts": {
+      "maxDuration": 300
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api|socket.io|health|assets|favicon).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

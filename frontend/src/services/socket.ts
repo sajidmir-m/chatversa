@@ -51,7 +51,7 @@ class SocketService {
     this.username = username;
     this.token = token;
 
-    this.socket = io(SOCKET_URL, {
+    this.socket = io(SOCKET_URL || undefined, {
       transports: import.meta.env.PROD ? ['websocket'] : ['websocket', 'polling'],
       reconnection: true,
       reconnectionAttempts: Infinity,

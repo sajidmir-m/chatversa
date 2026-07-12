@@ -1,19 +1,27 @@
-const trimTrailingSlash = (url: string): string => url.replace(/\/$/, '');
+const trimTrailingSlash = (url: string): string => url.replace(/\/+$/, '');
+
+/** Domain only — never include `/api` (paths in api.ts already start with /api). */
+const normalizeApiOrigin = (url: string): string => {
+  let normalized = trimTrailingSlash(url);
+  if (normalized.endsWith('/api')) {
+    normalized = normalized.slice(0, -4);
+  }
+  return normalized;
+};
 
 const resolveBaseUrl = (): string => {
   const envUrl = import.meta.env.VITE_API_URL?.trim();
-  if (envUrl) return trimTrailingSlash(envUrl);
+  if (envUrl) return normalizeApiOrigin(envUrl);
 
-  // Monorepo on Vercel: frontend + backend share one domain via rewrites
-  if (import.meta.env.PROD && typeof window !== 'undefined') {
-    return window.location.origin;
+  if (import.meta.env.PROD) {
+    return typeof window !== 'undefined' ? window.location.origin : '';
   }
 
   return 'http://localhost:3000';
 };
 
 export const API_URL = resolveBaseUrl();
-export const SOCKET_URL = trimTrailingSlash(
+export const SOCKET_URL = normalizeApiOrigin(
   import.meta.env.VITE_SOCKET_URL?.trim() || resolveBaseUrl()
 );
 
